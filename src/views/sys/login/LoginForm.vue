@@ -124,7 +124,7 @@
 
       const formData = reactive({
         account: 'guest',
-        password: '1234567',
+        password: '123456',
       });
 
       const { validForm } = useFormValid(formRef);
