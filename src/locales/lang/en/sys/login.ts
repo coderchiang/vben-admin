@@ -12,6 +12,7 @@ export default {
   scanSign: `scanning the code to complete the login`,
 
   loginButton: 'Sign in',
+  captcha:'captcha',
   registerButton: 'Sign up',
   rememberMe: 'Remember me',
   forgetPassword: 'Forget Password?',

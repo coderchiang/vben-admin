@@ -41,6 +41,7 @@ export function useFormRules(formData?: Recordable) {
   const { t } = useI18n();
 
   const getAccountFormRule = computed(() => createRule(t('sys.login.accountPlaceholder')));
+  const getCaptchFormRule = computed(() => createRule("请输入验证码"));
   const getPasswordFormRule = computed(() => createRule(t('sys.login.passwordPlaceholder')));
   const getSmsFormRule = computed(() => createRule(t('sys.login.smsPlaceholder')));
   const getMobileFormRule = computed(() => createRule(t('sys.login.mobilePlaceholder')));
@@ -63,6 +64,7 @@ export function useFormRules(formData?: Recordable) {
 
   const getFormRules = computed(() => {
     const accountFormRule = unref(getAccountFormRule);
+    const captchaFormRule = unref(getCaptchFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
     const smsFormRule = unref(getSmsFormRule);
     const mobileFormRule = unref(getMobileFormRule);
@@ -77,6 +79,7 @@ export function useFormRules(formData?: Recordable) {
         return {
           account: accountFormRule,
           password: passwordFormRule,
+          captcha:captchaFormRule,
           confirmPassword: [
             { validator: validateConfirmPassword(formData?.password), trigger: 'change' },
           ],
@@ -100,6 +103,7 @@ export function useFormRules(formData?: Recordable) {
         return {
           account: accountFormRule,
           password: passwordFormRule,
+          captcha:captchaFormRule,
         };
     }
   });

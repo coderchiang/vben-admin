@@ -17,7 +17,7 @@ import { useMessage } from '/@/hooks/web/useMessage';
 
 import router from '/@/router';
 
-import { loginApi,logout } from '/@/api/system/login';
+import { loginApi,logout,loadCaptcha } from '/@/api/system/login';
 
 import { useI18n } from '/@/hooks/web/useI18n';
 import { ErrorMessageMode } from '/@/utils/http/axios/types';
@@ -104,16 +104,30 @@ class User extends VuexModule {
     }
   }
 
-  // @Action
-  // async getUserInfoAction({ Id }: GetUserInfoByUserIdParams) {
-  //   const userInfo = await getUserInfoById({ Id });
-  //   const { roles } = userInfo;
-  //   const roleList = roles.map((item) => item.value) as RoleEnum[];
-  //   this.commitUserInfoState(userInfo);
-  //   this.commitRoleListState(roleList);
-  //   return userInfo;
-  // }
-
+ @Action
+ async loadCaptcha() {
+  try {
+    const res = await loadCaptcha().catch((e) => {
+      const { createMessage } = useMessage();
+      if (e.toString().indexOf('429') !== -1) {
+        createMessage.error('获取验证码过于频繁，请1分钟后再试');
+      } else {
+        createMessage.error('加载验证码失败');
+      }
+    });
+    if (res.byteLength <= 100) {
+      const { createMessage } = useMessage();
+      createMessage.error('系统维护中，请稍微再试~');
+      return '';
+    }
+    return (
+      res
+    );
+  } catch (error) {
+    console.error(error);
+    return '';
+  }
+}
   /**
    * @description: logout
    */

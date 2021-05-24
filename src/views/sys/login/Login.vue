@@ -154,6 +154,19 @@
       }
     }
 
+     .code-input {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .code-image {
+      display: inline-block;
+      width: 115px;
+      height: 42px;
+      vertical-align: top;
+      cursor: pointer;
+    }
+
     input:not([type='checkbox']) {
       min-width: 360px;
 

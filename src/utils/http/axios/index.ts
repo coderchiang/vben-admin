@@ -82,7 +82,7 @@ const transform: AxiosTransform = {
       return errorResult;
     }
     // 接口请求错误，统一提示错误信息
-      if(code%100){
+      if(code%100!==0){
 
       if (msg) {
         createMessage.error(data.msg);

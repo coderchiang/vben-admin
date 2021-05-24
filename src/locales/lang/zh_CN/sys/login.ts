@@ -12,6 +12,7 @@ export default {
   scanSign: `扫码后点击"确认"，即可完成登录`,
 
   loginButton: '登录',
+  captcha:'验证码',
   registerButton: '注册',
   rememberMe: '记住我',
   forgetPassword: '忘记密码?',

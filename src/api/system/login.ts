@@ -10,7 +10,8 @@ import { ErrorMessageMode } from '/@/utils/http/axios/types';
 
 enum Api {
   Login = '/login',
-  Logout='/logout'
+  Logout='/logout',
+  Captcha='/captcha',
 }
 
 /**
@@ -27,6 +28,19 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
     }
   );
 }
+
+
+export function loadCaptcha(mode: ErrorMessageMode = 'modal') {
+  return defHttp.get(
+    {
+      url: Api.Captcha,
+    },
+    {
+      errorMessageMode: mode,
+    }
+  );
+}
+
 
 export function logout(params?:any) {
   return defHttp.post<any>(

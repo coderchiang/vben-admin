@@ -13,6 +13,29 @@
       />
     </FormItem>
 
+
+    <ARow class="enter-x" v-show="true">
+      <ACol>
+        <FormItem class="code-input" name="captcha">
+          <Input
+            size="large"
+            visibilityToggle
+            v-model:value="formData.captcha"
+            :placeholder="t('sys.login.captcha')"
+
+          />
+        </FormItem>
+
+        <img
+          v-show="true"
+          :src="formState.CaptchaSrc"
+          @click="loadCaptcha"
+          alt="captcha"
+          class="code-image"
+        />
+      </ACol>
+    </ARow>
+
     <ARow class="enter-x">
       <ACol :span="12">
         <FormItem>
@@ -70,7 +93,7 @@
   </Form>
 </template>
 <script lang="ts">
-  import { defineComponent, reactive, ref, toRaw, unref, computed } from 'vue';
+  import { defineComponent, reactive, ref, toRaw, unref, computed,onMounted } from 'vue';
 
   import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
   import {
@@ -121,11 +144,33 @@
       const formRef = ref<any>(null);
       const loading = ref(false);
       const rememberMe = ref(false);
+       onMounted(() => {
+        loadCaptcha();
+      });
 
+  const formState = reactive({
+        loading: false,
+        CaptchaSrc: '',
+        CaptchaId:'',
+        // isMultiTenant: globSetting.multiTenantType !== 'NONE',
+        // showCaptcha: globSetting.showCaptcha === 'true',
+      });
       const formData = reactive({
         account: 'guest',
         password: '123456',
+        captcha:"",
       });
+
+
+
+      // 加载验证码
+    async function loadCaptcha() {
+        const res = await userStore.loadCaptcha();
+        formState.CaptchaSrc = res.CaptchaSrc;
+        formState.CaptchaId =res.CaptchaId
+
+      }
+
 
       const { validForm } = useFormValid(formRef);
       useKeyPress(['enter'], (events) => {
@@ -147,6 +192,8 @@
             toRaw({
               password: data.password,
               username: data.account,
+              captcha:data.captcha,
+              captchaId:formState.CaptchaId
             })
           );
           if (userInfo) {
@@ -170,6 +217,8 @@
         rememberMe,
         handleLogin,
         loading,
+        formState,
+        loadCaptcha,
         setLoginState,
         LoginStateEnum,
         getShow,
