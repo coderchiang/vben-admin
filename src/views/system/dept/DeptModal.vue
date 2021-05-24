@@ -34,6 +34,7 @@
           });
         }
         const treeData = await getDeptList();
+        treeData
         updateSchema({
           field: 'parentDept',
           componentProps: { treeData },
